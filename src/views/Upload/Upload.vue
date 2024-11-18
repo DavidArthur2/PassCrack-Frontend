@@ -5,7 +5,6 @@
     </div>
 
     <div class="form-section">
-      <!-- Új jelszólista létrehozása -->
       <h2>Új jelszólista létrehozása</h2>
       <form @submit.prevent="createPasswordList">
         <div class="input-group">
@@ -23,18 +22,28 @@
     </div>
 
     <div class="list-section">
-      <!-- Jelenlegi Jelszólisták -->
-      <h2>Jelenlegi Jelszólisták</h2>
-      <ul v-if="passwordLists.length" class="password-list">
-        <li v-for="list in passwordLists" :key="list.name" class="list-item">
+      <h2>
+        Jelenlegi Jelszólisták
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Keresés név szerint..."
+          class="search-bar"
+        />
+      </h2>
+      <ul v-if="filteredPasswordLists && filteredPasswordLists.length" class="password-list">
+        <li
+          v-for="list in filteredPasswordLists"
+          :key="list.name"
+          class="list-item"
+        >
           <span class="identifier">{{ list.name }}</span>
-          
-          <!-- Titkosított állapot -->
+
           <span
             class="status"
             :class="list.encryption === 'None' || list.encryption.length === 1 && list.encryption[0] == ''? 'missing' : 'uploaded'"
           >
-            Titkosított fájl: 
+            Titkosított fájl:
             {{ list.encryption === 'None' || list.encryption.length === 1 && list.encryption[0] == '' ? 'Nincs fájl feltöltve' : list.encryption.join(',') }}
             <button
               v-if="!(list.encryption === 'None' || list.encryption.length === 1 && list.encryption[0] == '')"
@@ -44,13 +53,12 @@
               Letöltés
             </button>
           </span>
-          
-          <!-- Nyers állapot -->
+
           <span
             class="status"
             :class="list.raw === 'False' ? 'missing' : 'uploaded'"
           >
-            Nyers fájl: 
+            Nyers fájl:
             {{ list.raw === 'False' ? 'Nincs fájl feltöltve' : 'Elérhető' }}
             <button
               v-if="list.raw !== 'False'"
@@ -60,12 +68,18 @@
               Letöltés
             </button>
           </span>
-          
+
           <div class="actions">
             <label>
               Titkosított feltöltése:
-              <input type="file" @change="handleFileUpload($event, list.name, 'encrypted')" />
-              <select v-model="encryptionType[list.name]" class="encryption-select">
+              <input
+                type="file"
+                @change="handleFileUpload($event, list.name, 'encrypted')"
+              />
+              <select
+                v-model="encryptionType[list.name]"
+                class="encryption-select"
+              >
                 <option disabled value="">Válasszon titkosítási típust</option>
                 <option value="md5">MD5</option>
                 <option value="sha1">SHA1</option>
@@ -76,7 +90,10 @@
             </label>
             <label>
               Nyers feltöltése:
-              <input type="file" @change="handleFileUpload($event, list.name, 'raw')" />
+              <input
+                type="file"
+                @change="handleFileUpload($event, list.name, 'raw')"
+              />
             </label>
           </div>
         </li>
@@ -98,8 +115,16 @@ export default {
       newName: "",
       passwordLists: [],
       errorMessage: "",
+      searchQuery: "",
       encryptionType: {},
     };
+  },
+  computed: {
+    filteredPasswordLists() {
+      return (this.passwordLists || []).filter((list) =>
+      list.name?.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+    },
   },
   methods: {
     async fetchPasswordLists() {
@@ -161,7 +186,7 @@ export default {
             headers: { "Content-Type": "multipart/form-data" },
           });
           dialogs.showSuccess("Titkosított fájl sikeresen feltöltve.");
-          await this.fetchPasswordLists(); // Refresh the password lists
+          await this.fetchPasswordLists();
         } catch (error) {
           dialogs.showError("Nem sikerült feltölteni a fájlt. " + (error.response?.data?.error || ""));
         }
@@ -185,7 +210,7 @@ export default {
             headers: { "Content-Type": "multipart/form-data" },
           });
           dialogs.showSuccess("Nyers fájl sikeresen feltöltve.");
-          await this.fetchPasswordLists(); // Refresh the password lists
+          await this.fetchPasswordLists();
         } catch (error) {
           dialogs.showError("Nem sikerült feltölteni a fájlt. " + (error.response?.data?.error || ""));
         }
@@ -228,135 +253,15 @@ export default {
     },
   },
   mounted() {
-    this.fetchPasswordLists();
+    this.fetchPasswordLists().catch((error) => {
+    console.error("Error fetching password lists:", error);
+    this.passwordLists = [];
+  });
   },
 
 };
 </script>
 
 <style scoped>
-.encryption-select {
-  margin-top: 5px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.upload-container {
-  font-family: Arial, sans-serif;
-  margin: 20px auto;
-  max-width: 800px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  background: #f9f9f9;
-}
-
-.header {
-  text-align: center;
-}
-
-h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-h2 {
-  font-size: 20px;
-  margin-top: 20px;
-}
-
-.input-group {
-  display: flex;
-  gap: 10px;
-}
-
-.input {
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.btn {
-  padding: 10px 20px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: #0056b3;
-}
-
-.error {
-  color: red;
-  margin-top: 10px;
-}
-
-.list-section {
-  margin-top: 20px;
-}
-
-.password-list {
-  list-style: none;
-  padding: 0;
-}
-
-.list-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #fff;
-}
-
-.identifier {
-  font-weight: bold;
-}
-
-.status {
-  margin-left: 10px;
-}
-
-.status.uploaded {
-  color: green;
-}
-
-.status.missing {
-  color: red;
-}
-
-.actions {
-  display: flex;
-  gap: 20px;
-}
-
-.actions label {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-size: 14px;
-}
-
-.actions input {
-  margin-top: 5px;
-}
-.download-btn {
-  margin-left: 10px;
-  padding: 5px 10px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.download-btn:hover {
-  background: #0056b3;
-}
+@import "./Upload.css";
 </style>
