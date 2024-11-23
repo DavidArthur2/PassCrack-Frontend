@@ -41,12 +41,12 @@
 
           <span
             class="status"
-            :class="list.encryption === 'None' || list.encryption.length === 1 && list.encryption[0] == ''? 'missing' : 'uploaded'"
+            :class="list.encryption[0] === 'None' || list.encryption.length === 1 && list.encryption[0] == ''? 'missing' : 'uploaded'"
           >
             Titkosított fájl:
-            {{ list.encryption === 'None' || list.encryption.length === 1 && list.encryption[0] == '' ? 'Nincs fájl feltöltve' : list.encryption.join(',') }}
+            {{ list.encryption[0] === 'None' || list.encryption.length === 1 && list.encryption[0] == '' ? 'Nincs fájl feltöltve' : list.encryption.join(',') }}
             <button
-              v-if="!(list.encryption === 'None' || list.encryption.length === 1 && list.encryption[0] == '')"
+              v-if="!(list.encryption[0] === 'None' || list.encryption.length === 1 && list.encryption[0] == '')"
               @click="downloadFile(list.name, 'encrypted')"
               class="download-btn"
             >
