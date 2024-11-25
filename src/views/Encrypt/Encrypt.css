@@ -88,3 +88,23 @@
     border-radius: 5px;
     border: 1px solid #ddd;
   }
+
+  .status-done {
+    background-color: #209400;
+    color: white;
+  }
+  
+  .status-in-progress {
+    background-color: orange;
+    color: black;
+  }
+  
+  .status-failed {
+    background-color: red;
+    color: white;
+  }
+  
+  .status-not-started {
+    background-color: grey;
+    color: white;
+  }
