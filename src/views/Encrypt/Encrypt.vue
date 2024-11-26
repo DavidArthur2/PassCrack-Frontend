@@ -38,17 +38,19 @@
       </button>
     </section>
 
-    <section
-      v-if="encryptionStatus"
-      :class="['status-section', statusClass]"
-    >
+    <section v-if="encryptionStatus" :class="['status-section', statusClass]">
       <h2>Titkosítás Állapota</h2>
-      <p>Fájl: {{ currentFileName }}</p>
       <p>Státusz: {{ encryptionStatus.status }}</p>
-      <p v-if="encryptionStatus.percentage">
-        Állapot: {{ encryptionStatus.percentage }} / 100
-      </p>
+      <p v-if="currentFileName">Fájl: {{ currentFileName }}</p>
+      <p v-if="encryptionStatus.percentage">Állapot: {{ encryptionStatus.percentage.toFixed(2) }}% / 100%</p>
+      <p v-if="encryptionStatus.progress">Folyamatban lévő sorok: {{ encryptionStatus.progress }}</p>
+      <p v-if="encryptionStatus.total">Összes sor: {{ encryptionStatus.total }}</p>
+      <p v-if="encryptionStatus.averageSpeed">Átlagos sebesség: {{ encryptionStatus.averageSpeed }}</p>
+      <p v-if="encryptionStatus.maxSpeed">Maximális sebesség: {{ encryptionStatus.maxSpeed }}</p>
+      <p v-if="encryptionStatus.estimatedEndTime">Becsült befejezési idő: {{ encryptionStatus.estimatedEndTime }}</p>
+      <p v-if="encryptionStatus.remainingTime">Hátralevő idő: {{ encryptionStatus.remainingTime }}</p>
     </section>
+
   </div>
 </template>
 
