@@ -91,7 +91,7 @@ export default {
       switch (status) {
         case "Done":
           return "status-done";
-        case "In progress":
+        case "In Progress":
           return "status-in-progress";
         case "Failed":
           return "status-failed";
@@ -135,8 +135,8 @@ export default {
         console.error("Hiba a titkosítási módszerek lekérésekor:", error);
       }
     },
-    async fetchStatus() {
-      if (!this.timerActive) return;
+    async fetchStatus(boot = false) {
+      if (!this.timerActive && boot !== true) return;
       try {
         const response = await axios.get("http://localhost:8001/encryptstatus");
         const progress = response.data.progress;
@@ -144,13 +144,12 @@ export default {
 
         this.encryptionStatus = progress;
         this.currentFileName = fileName;
-
-        if (progress === "In progress") {
+        if (progress.status === "In Progress") {
           this.isEncrypting = true;
         } else if (
-          progress === "Done" ||
-          progress === "Failed" ||
-          progress === "Not started"
+          progress.status === "Done" ||
+          progress.status === "Failed" ||
+          progress.status === "Not started"
         ) {
           this.isEncrypting = false;
           this.stopTimer();
@@ -179,12 +178,13 @@ export default {
         dialogs.showError(
           `A "${this.selectedFile.name}" fájl már tartalmazza a "${this.selectedEncryption}" titkosítást.`
         );
+        this.selectedEncryption = null;
       }
     },
     async startEncryption() {
       try {
         const payload = {
-          name: this.selectedFile,
+          name: this.selectedFile.name,
           encryption: this.selectedEncryption,
         };
         const response = await axios.post(
@@ -196,20 +196,24 @@ export default {
           this.startTimer();
           this.fetchStatus();
           this.isEncrypting = true;
-        }
+        } 
       } catch (error) {
-        dialogs.showError(
-          "Hiba a titkosítás indításakor: Részletek a logban"
-        );
-        console.error("Hiba a titkosítás indításakor:", error);
+        if (error.response.status === 409) {
+          dialogs.showError(error.response.data.error);
+        }
+        else {
+          dialogs.showError(
+            "Hiba a titkosítás indításakor: Részletek a logban"
+          );
+          console.error("Hiba a titkosítás indításakor:", error);
+        }
       }
     },
   },
   async mounted() {
     await this.fetchPasswordLists();
     await this.fetchEncryptions();
-    this.startTimer();
-    await this.fetchStatus();
+    await this.fetchStatus(true);
   },
   beforeUnmount() {
     this.stopTimer();
