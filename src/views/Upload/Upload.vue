@@ -81,11 +81,11 @@
                 class="encryption-select"
               >
                 <option disabled value="">Válasszon titkosítási típust</option>
-                <option value="md5">MD5</option>
-                <option value="sha1">SHA1</option>
-                <option value="sha256_ps">SHA256_PS</option>
-                <option value="sha256_sp">SHA256_SP</option>
-                <option value="wpa2">WPA2</option>
+                <option value="MD5">MD5</option>
+                <option value="SHA1">SHA1</option>
+                <option value="SHA256_PS">SHA256_PS</option>
+                <option value="SHA256_SP">SHA256_SP</option>
+                <option value="WPA2">WPA2</option>
               </select>
             </label>
             <label>
