@@ -216,7 +216,7 @@ export default {
   },
   async mounted() {
     await this.fetchPasswordLists();
-    await fetchCrackStatus();
+    await this.fetchCrackingStatus();
   },
   beforeUnmount() {
     this.stopStatusPolling();
