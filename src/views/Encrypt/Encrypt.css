@@ -103,6 +103,11 @@
     background-color: red;
     color: white;
   }
+
+  .status-starting {
+    background-color: yellow;
+    color: white;
+  }
   
   .status-not-started {
     background-color: grey;

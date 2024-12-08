@@ -78,23 +78,30 @@
       </select>
     </section>
 
-    <section class="action-section">
+    <section v-if="crackingStatus" class="action-section">
       <button :disabled="!canStart" @click="startCracking">
         Start
       </button>
+      <button v-if="crackingStatus.Status === 'In Progress' || crackingStatus.Status === 'Starting'" @click="cancelCracking">
+        Cancel
+      </button>
     </section>
 
-    <section v-if="crackingStatus" class="status-section">
+
+    <section v-if="crackingStatus" :class="['status-section', statusClass]">
       <h2>Visszafejtés állapota</h2>
-      <p>Státusz: {{ crackingStatus.Status }}</p>
-      <p>Sebesség: {{ crackingStatus.Speed }}</p>
-      <p>Progress: {{ crackingStatus.Progress }}</p>
-      <p>GPU: {{ crackingStatus["Hardware.GPU"] }}</p>
-      <p>CPU: {{ crackingStatus["Hardware.CPU"] }}</p>
-      <p>Indítás ideje: {{ crackingStatus["Time.Started"] }}</p>
-      <p>Becsült befejezési idő: {{ crackingStatus["Time.Estimated"] }}</p>
-      <!--<p v-if="crackingStatus["Time.Stopped"].length">Befejeződött ekkor: {{ crackingStatus["Time.Stopped"] }}</p>-->
-    </section>
+      <p v-if="crackingStatus.Status">Státusz: {{ crackingStatus.Status }}</p>
+      <p v-if="crackingStatus['Speed1']">Sebesség1: {{ crackingStatus['Speed1'] }}</p>
+      <p v-if="crackingStatus['Speed2']">Sebesség2: {{ crackingStatus['Speed2'] }}</p>
+      <p v-if="crackingStatus['Progress']">Progress: {{ crackingStatus['Progress'] }}</p>
+      <p v-if="crackingStatus['Hardware.GPU']">GPU: {{ crackingStatus['Hardware.GPU'] }}</p>
+      <p v-if="crackingStatus['Hardware.CPU']">CPU: {{ crackingStatus['Hardware.CPU'] }}</p>
+      <p v-if="crackingStatus['Time.Started']">Indítás ideje: {{ crackingStatus['Time.Started'] }}</p>
+      <p v-if="crackingStatus['Time.Estimated']">Becsült befejezési idő: {{ crackingStatus['Time.Estimated'] }}</p>
+      <p v-if="crackingStatus['Recovered']">Visszafejtett: {{ crackingStatus['Recovered'] }}</p>
+      <p v-if="remainingTime">Maradt idő: {{ remainingTime }}</p>
+      <p v-if="crackingStatus['Time.Stopped']">Befejeződött ekkor: {{ crackingStatus['Time.Stopped'] }}</p>
+  </section>
   </div>
 </template>
 
@@ -129,6 +136,44 @@ export default {
       }
       return false;
     },
+    statusClass() {
+      const status = this.crackingStatus?.Status;
+      console.log(status);
+      switch (status) {
+        case "Done":
+          return "status-done";
+        case "In Progress":
+          return "status-in-progress";
+        case "Failed":
+          return "status-failed";
+        case "Starting":
+          return "status-starting";
+        case "Not Started":
+        default:
+          return "status-not-started";
+      }
+    },
+    remainingTime() {
+      const days = this.crackingStatus["Days.Needed"] || 0;
+      const hours = this.crackingStatus["Hours.Needed"] || 0;
+      const minutes = this.crackingStatus["Minutes.Needed"] || 0;
+      const seconds = this.crackingStatus["Seconds.Needed"] || 0;
+      const years = this.crackingStatus["Years.Needed"] || 0;
+      const months = this.crackingStatus["Months.Needed"] || 0;
+
+      let remainingTime = "";
+
+      if (years > 0) remainingTime += `${years} év, `;
+      if (months > 0) remainingTime += `${months} hónap, `;
+      if (days > 0) remainingTime += `${days} nap, `;
+      if (hours > 0) remainingTime += `${hours} óra, `;
+      if (minutes > 0) remainingTime += `${minutes} perc, `;
+      if (seconds > 0) remainingTime += `${seconds} másodperc`;
+
+      remainingTime = remainingTime.trim().replace(/,$/, "");
+
+      return remainingTime
+    }
   },
   methods: {
     async fetchPasswordLists() {
@@ -186,10 +231,16 @@ export default {
       try {
         const response = await axios.put("/startcrack", payload);
         if (response.status === 200) {
+          dialogs.showSuccess("Sikeres visszafejtés indítás!");
           this.startStatusPolling();
         }
       } catch (error) {
-        dialogs.showError("Nem sikerült elindítani a visszafejtést.");
+        if(error.response){
+          if(error.response.status === 409)
+            dialogs.showError("Nem sikerült elindítani a visszafejtést.\n" + error.response.data.error);
+          else
+            dialogs.showError("Nem sikerült elindítani a visszafejtést. Reszletek a logban!");
+        }
         console.error(error);
       }
     },
@@ -201,6 +252,10 @@ export default {
           this.stopStatusPolling();
         }
       } catch (error) {
+        if(error.response){
+          if (error.response.status === 409)
+            dialogs.showError("Egy hiba lepett fel: " + error.response.data.error);
+        }
         console.error(error);
       }
     },
@@ -213,10 +268,28 @@ export default {
         this.timer = null;
       }
     },
+    async cancelCracking() {
+      try {
+        const response = await axios.post("/cancelcrack");
+        
+        if (response.status === 200) {
+          dialogs.showSuccess("Visszafejtes sikeresen lezarva!")
+        } else {
+          dialogs.showError("Visszafejtes lezarasa sikertelen!");
+        }
+      } catch (error) {
+        console.error("Error canceling the cracking process:", error);
+        if(error.response.status == 409)
+          dialogs.showError("Visszafejtes lezarasa sikertelen!\n" + error.response.data.error);
+      }
+    }
   },
   async mounted() {
     await this.fetchPasswordLists();
     await this.fetchCrackingStatus();
+    if (this.crackingStatus.Status === "In Progress") {
+          this.startStatusPolling();
+    }
   },
   beforeUnmount() {
     this.stopStatusPolling();
@@ -234,8 +307,7 @@ export default {
 .type-selection,
 .password-list-selection,
 .encryption-selection,
-.start-section,
-.status-section {
+.start-section{
   margin-bottom: 20px;
 }
 
