@@ -56,12 +56,12 @@
 
           <span
             class="status"
-            :class="list.raw === 'False' ? 'missing' : 'uploaded'"
+            :class="list.raw === 'false' ? 'missing' : 'uploaded'"
           >
             Nyers fájl:
-            {{ list.raw === 'False' ? 'Nincs fájl feltöltve' : 'Elérhető' }}
+            {{ list.raw === 'false' ? 'Nincs fájl feltöltve' : 'Elérhető' }}
             <button
-              v-if="list.raw !== 'False'"
+              v-if="list.raw !== 'false'"
               @click="downloadFile(list.name, 'raw')"
               class="download-btn"
             >
@@ -194,7 +194,7 @@ export default {
           event.target.value = '';
         }
       } else if (type === "raw") {
-        if (selectedList.raw !== "False") {
+        if (selectedList.raw !== "false") {
           dialogs.showError("Már van feltöltve nyers fájl ehhez az azonosítóhoz.");
           event.target.value = '';
           return;

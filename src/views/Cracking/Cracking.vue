@@ -198,7 +198,7 @@ export default {
       this.selectedPasswordList = file;
       if (this.selectedCrackType === "dictionary") {
         this.wordlistOptions = this.passwordLists.filter(
-          (list) => list.raw === "True"
+          (list) => list.raw === "true"
         );
       }
     },

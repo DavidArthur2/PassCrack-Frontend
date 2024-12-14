@@ -80,7 +80,7 @@ export default {
     filteredPasswordLists() {
       const query = this.searchQuery.toLowerCase();
       return this.passwordLists.filter(
-        (file) => file.raw === "True" && file.name.toLowerCase().includes(query)
+        (file) => file.raw === "true" && file.name.toLowerCase().includes(query)
       );
     },
     canStart() {
