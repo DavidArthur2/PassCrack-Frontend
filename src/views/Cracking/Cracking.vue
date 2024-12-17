@@ -79,7 +79,7 @@
     </section>
 
     <section v-if="crackingStatus" class="action-section">
-      <button :disabled="!canStart" @click="startCracking">
+      <button :disabled="!canStart" @click="showDescriptionDialog">
         Start
       </button>
       <button v-if="crackingStatus.Status === 'In Progress' || crackingStatus.Status === 'Starting'" @click="cancelCracking">
@@ -124,6 +124,7 @@ export default {
       maskInput: "",
       crackingStatus: null,
       timer: null,
+      description: "",
     };
   },
   computed: {
@@ -176,6 +177,17 @@ export default {
     }
   },
   methods: {
+    showDescriptionDialog() {
+      const res = dialogs.showInputDialog("Megjegyzés", "Add meg a visszafejtés leírását", "Leírás...", "Indítás", "Mégse");
+      res.then((result) => {
+        if (result.isConfirmed) {
+          if(result.value.length > 50)
+            return dialogs.showError("Túl hosszú megjegyzés, maximum 50 karakter!");
+          this.description = result.value || "-";
+          this.startCracking();
+        }
+      });
+    },
     async fetchPasswordLists() {
       try {
         const response = await axios.get("/passwords");
@@ -226,7 +238,8 @@ export default {
           this.selectedCrackType === "dictionary"
             ? this.selectedWordlist?.name
             :  this.maskInput,
-        rule: this.selectedPattern === null ? "" : this.selectedPattern
+        rule: this.selectedPattern === null ? "" : this.selectedPattern,
+        description: this.description,
       };
       try {
         const response = await axios.put("/startcrack", payload);

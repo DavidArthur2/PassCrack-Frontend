@@ -33,7 +33,7 @@
     </section>
 
     <section class="action-section">
-      <button :disabled="!canStart || isEncrypting" @click="startEncryption">
+      <button :disabled="!canStart || isEncrypting" @click="showDescriptionDialog">
         Titkosítás Indítása
       </button>
     </section>
@@ -74,6 +74,7 @@ export default {
       isEncrypting: false,
       searchQuery: "",
       timerActive: false,
+      description: "",
     };
   },
   computed: {
@@ -102,6 +103,17 @@ export default {
     },
   },
   methods: {
+    showDescriptionDialog() {
+      const res = dialogs.showInputDialog("Megjegyzés", "Add meg az enkriptálás leírását", "Leírás...", "Indítás", "Mégse");
+      res.then((result) => {
+        if (result.isConfirmed) {
+          if(result.value.length > 50)
+            return dialogs.showError("Túl hosszú megjegyzés, maximum 50 karakter!");
+          this.description = result.value || "-";
+          this.startEncryption();
+        }
+      });
+    },
     startTimer() {
       if (!this.timerActive) {
         this.timerActive = true;
@@ -186,6 +198,7 @@ export default {
         const payload = {
           name: this.selectedFile.name,
           encryption: this.selectedEncryption,
+          description: this.description,
         };
         const response = await axios.post(
           "http://localhost:8001/startencrypt",

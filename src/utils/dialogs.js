@@ -24,5 +24,16 @@ export default {
       icon: 'success',
       confirmButtonText: 'Rendben'
     });
+  },
+  showInputDialog(title, description, placeholder, confirmText, cancelText) {
+    return Swal.fire({
+      title: title,
+      text: description,
+      input: 'textarea',
+      inputPlaceholder: placeholder,
+      showCancelButton: true,
+      confirmButtonText: confirmText,
+      cancelButtonText: cancelText
+    });
   }
 };

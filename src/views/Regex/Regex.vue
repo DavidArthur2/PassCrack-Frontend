@@ -1,7 +1,7 @@
 <template>
     <div class="regex-container">
         <h1 class="title">Reguláris Kifejezés Tesztelő</h1>
-        <form @submit.prevent="runRegex" class="form">
+        <form @submit.prevent="showDescriptionDialog" class="form">
             <div class="form-group">
                 <label for="regex">Reguláris Kifejezés Minta</label>
                 <input
@@ -63,6 +63,7 @@
         },
         commaSeparator: false,
         formattedResults: "",
+        description: "",
       };
     },
     watch: {
@@ -80,10 +81,22 @@
       },
     },
     methods: {
-        async runRegex() {
+      showDescriptionDialog() {
+        const res = dialogs.showInputDialog("Megjegyzés", "Add meg a mérés leírását", "Leírás...", "Indítás", "Mégse");
+        res.then((result) => {
+          if (result.isConfirmed) {
+            if(result.value.length > 50)
+              return dialogs.showError("Túl hosszú megjegyzés, maximum 50 karakter!");
+            this.description = result.value || "-";
+            this.runRegex();
+          }
+        });
+      },
+      async runRegex() {
             const payload = {
             regex: this.regex,
             sample_number: this.sampleNumber,
+            description: this.description
         };
   
         try {
