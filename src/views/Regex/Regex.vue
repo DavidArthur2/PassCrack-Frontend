@@ -80,10 +80,10 @@
       },
     },
     methods: {
-      async runRegex() {
-        const payload = {
-          regex: this.regex,
-          sample_number: this.sampleNumber,
+        async runRegex() {
+            const payload = {
+            regex: this.regex,
+            sample_number: this.sampleNumber,
         };
   
         try {
@@ -106,12 +106,15 @@
         }
       },
       formatResults() {
-        if (this.results.count !== null && this.results.samples.length > 0) {
+        if (this.results.count !== null && this.results.samples.length > 0 && this.results.count > 0) {
           if (this.commaSeparator) {
             this.formattedResults = this.results.samples.join(", ");
           } else {
             this.formattedResults = this.results.samples.join("\n");
           }
+        }
+        else {
+            this.formattedResults = "";
         }
       },
     },
