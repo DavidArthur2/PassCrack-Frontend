@@ -1,0 +1,124 @@
+<template>
+    <div class="regex-container">
+        <h1 class="title">Reguláris Kifejezés Tesztelő</h1>
+        <form @submit.prevent="runRegex" class="form">
+            <div class="form-group">
+                <label for="regex">Reguláris Kifejezés Minta</label>
+                <input
+                    v-model="regex"
+                    type="text"
+                    id="regex"
+                    placeholder="Add meg a reguláris kifejezést..."
+                    class="input-field"/>
+                <small class="instruction-text">Add meg a tesztelni kívánt reguláris kifejezést.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="sample_number">Minta Méret (0-100)</label>
+                <input
+                    v-model="sampleNumber"
+                    type="number"
+                    id="sample_number"
+                    min="0"
+                    max="100"
+                    value="5"
+                    class="input-field"/>
+                <small class="instruction-text">Add meg, hány találatot szeretnél látni (alapértelmezett: 5).</small>
+            </div>
+
+            <button type="submit" class="btn-run">Reguláris Kifejezés Futattása</button>
+        </form>
+
+        <div v-if="results.count !== null" class="results-container">
+            <div class="header-row">
+                <h2>Eredmények</h2>
+                <div class="form-group checkbox-group">
+                    <input
+                        type="checkbox"
+                        id="commaSeparator"
+                        v-model="commaSeparator"
+                        class="checkbox"/>
+                    <label for="commaSeparator">Eredmények vesszővel elválasztva</label>
+                </div>
+            </div>
+            <p><strong>Talált eredmények száma:</strong> {{ results.count }}</p>
+            <textarea v-model="formattedResults" readonly class="results-textbox"></textarea>
+        </div>
+    </div>
+</template>
+  
+<script>
+  import axios from "axios";
+  import dialogs from "@/utils/dialogs";
+  
+  export default {
+    name: "RegexRunner",
+    data() {
+      return {
+        regex: "",
+        sampleNumber: 5,
+        results: {
+          count: null,
+          samples: [],
+        },
+        commaSeparator: false,
+        formattedResults: "",
+      };
+    },
+    watch: {
+      results: {
+        handler() {
+          this.formatResults();
+        },
+        deep: true,
+      },
+      commaSeparator: {
+        handler() {
+          this.formatResults();
+        },
+        immediate: true,
+      },
+    },
+    methods: {
+      async runRegex() {
+        const payload = {
+          regex: this.regex,
+          sample_number: this.sampleNumber,
+        };
+  
+        try {
+          const response = await axios.post("/run_regex", payload);
+          if (response.status === 200) {
+            const { count, samples } = response.data.result;
+            this.results.count = count;
+            this.results.samples = samples;
+            dialogs.showSuccess("A reguláris kifejezés sikeresen lefutott!");
+          }
+        } catch (error) {
+          if (error.response) {
+            if (error.response.status === 409) {
+              dialogs.showError("Nem sikerült elindítani a reguláris kifejezést.\n" + error.response.data.error);
+            } else {
+              dialogs.showError("Nem sikerült elindítani a reguláris kifejezést. Részletek a naplóban!");
+            }
+          }
+          console.error(error);
+        }
+      },
+      formatResults() {
+        if (this.results.count !== null && this.results.samples.length > 0) {
+          if (this.commaSeparator) {
+            this.formattedResults = this.results.samples.join(", ");
+          } else {
+            this.formattedResults = this.results.samples.join("\n");
+          }
+        }
+      },
+    },
+  };
+</script>
+  
+<style>
+@import "./Regex.css";
+</style>
+  

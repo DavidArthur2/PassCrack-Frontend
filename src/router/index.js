@@ -3,7 +3,7 @@ import UploadFile from '@/views/Upload/Upload.vue';
 import Cracking from '@/views/Cracking/Cracking.vue';
 import Reports from '@/views/Reports/Reports.vue';
 import Encrypt from '@/views/Encrypt/Encrypt.vue';
-import Rules from '@/views/Rules/Rules.vue';
+import Regex from '@/views/Regex/Regex.vue';
 import Home from '@/views/Home/Home.vue';
 
 const routes = [
@@ -11,7 +11,7 @@ const routes = [
   { path: '/cracking', component: Cracking },
   { path: '/reports', component: Reports },
   { path: '/encrypt', component: Encrypt },
-  { path: '/rules', component: Rules },
+  { path: '/regex', component: Regex },
   { path: '/', component: Home }
 ];
 

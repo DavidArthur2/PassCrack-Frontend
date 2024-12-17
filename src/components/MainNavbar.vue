@@ -46,7 +46,7 @@ import {
           {name: "Visszafejtés", link: "/cracking"},
           {name: "Kimutatások", link: "/reports"},
           {name: "Jelszó encryptáló", link: "/encrypt"},
-          {name: "Szabály generátor", link: "/rules"},
+          {name: "Regex futtató", link: "/regex"},
         ]
       }
     },
