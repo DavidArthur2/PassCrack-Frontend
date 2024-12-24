@@ -1,0 +1,25 @@
+.report-page {
+    padding: 20px;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+.controls .form-group {
+    margin-bottom: 15px;
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.btn {
+    margin-right: 10px;
+}
