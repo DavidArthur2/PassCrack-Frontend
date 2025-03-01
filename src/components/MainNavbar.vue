@@ -45,8 +45,9 @@ import {
           {name: "Fájl feltöltő", link: "/upload"},
           {name: "Visszafejtés", link: "/cracking"},
           {name: "Kimutatások", link: "/reports"},
-          {name: "Jelszó encryptáló", link: "/encrypt"},
+          {name: "Jelszó titkosító", link: "/encrypt"},
           {name: "Regex futtató", link: "/regex"},
+          {name: "Jelszó tesztelő", link: "/tester"}
         ]
       }
     },

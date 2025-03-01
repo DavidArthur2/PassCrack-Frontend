@@ -5,6 +5,7 @@ import Reports from '@/views/Reports/Reports.vue';
 import Encrypt from '@/views/Encrypt/Encrypt.vue';
 import Regex from '@/views/Regex/Regex.vue';
 import Home from '@/views/Home/Home.vue';
+import Tester from '@/views/Tester/Tester.vue';
 
 const routes = [
   { path: '/upload', component: UploadFile },
@@ -12,6 +13,7 @@ const routes = [
   { path: '/reports', component: Reports },
   { path: '/encrypt', component: Encrypt },
   { path: '/regex', component: Regex },
+  { path: '/tester', component: Tester },
   { path: '/', component: Home }
 ];
 
