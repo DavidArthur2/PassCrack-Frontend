@@ -88,7 +88,7 @@
       },
       async fetchAvailableRecords() {
         try {
-          const response = await axios.get('http://localhost:8001/records', {
+          const response = await axios.get('/records', {
             params: {
               measurementType: this.selectedMeasurementType,
             },
@@ -132,7 +132,7 @@
 
         try {
           const response = await axios.post(
-            'http://localhost:8001/chartdata',
+            '/chartdata',
             payload
           );
           if (response.status === 200) {

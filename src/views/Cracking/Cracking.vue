@@ -312,25 +312,5 @@ export default {
 
 <style scoped>
 @import "../Encrypt/Encrypt.css";
-.password-cracking-container {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-}
-
-.type-selection,
-.password-list-selection,
-.encryption-selection,
-.start-section{
-  margin-bottom: 20px;
-}
-
-.selected {
-  background-color: #007bff;
-}
-
-.mask-info {
-  font-size: 0.85em;
-  color: gray;
-  margin-top: 0.5em;
-}
+@import "./Cracking.css";
 </style>

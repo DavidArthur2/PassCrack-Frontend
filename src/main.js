@@ -4,6 +4,7 @@ import '../node_modules/flowbite-vue/dist/index.css'
 import './tailwind.css'
 import router from './router'
 import axios from "axios";
+import { getApiUrl } from './utils/config'
 
-axios.defaults.baseURL = "http://127.0.0.1:8001";
+axios.defaults.baseURL = getApiUrl("");
 createApp(App).use(router).mount('#app')

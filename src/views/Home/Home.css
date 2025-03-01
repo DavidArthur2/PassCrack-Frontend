@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+  }
+  
+  header {
+    background-color: #4a90e2;
+    color: white;
+    padding: 20px;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    width: 40px;
+    margin-right: 10px;
+  }
+  
+  .logo h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .nav-links {
+    list-style-type: none;
+  }
+  
+  .nav-links li {
+    display: inline-block;
+    margin-left: 20px;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+  }
+  
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+  
+  section#introduction {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 50px 100px;
+    background-color: white;
+  }
+  
+  section#introduction .content {
+    max-width: 50%;
+  }
+  
+  section#introduction .content h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  section#introduction .content p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  section#introduction .image {
+    max-width: 40%;
+  }
+  
+  section#introduction img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  section#features {
+    background-color: #f8f8f8;
+    padding: 40px 100px;
+    text-align: center;
+  }
+  
+  section#features h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #4a90e2;
+  }
+  
+  section#features ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  section#features ul li {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+  }
+  
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+  }
+  
+  footer p {
+    font-size: 1em;
+  }
+  
+  section#features ul li:hover {
+    color: #4a90e2;
+    transition: color 0.3s ease;
+  }
+  
+  @media (max-width: 768px) {
+    section#introduction {
+      flex-direction: column;
+      padding: 20px;
+    }
+  
+    section#introduction .content {
+      max-width: 100%;
+    }
+  
+    section#introduction .image {
+      max-width: 100%;
+      margin-top: 20px;
+    }
+  
+    section#features {
+      padding: 20px;
+    }
+  
+    footer {
+      padding: 10px;
+    }
+  }

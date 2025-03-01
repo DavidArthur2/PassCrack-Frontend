@@ -129,7 +129,7 @@ export default {
     },
     async fetchPasswordLists() {
       try {
-        const response = await axios.get("http://localhost:8001/passwords");
+        const response = await axios.get("/passwords");
         this.passwordLists = response.data.passwordlists;
       } catch (error) {
         dialogs.showError("Hiba a jelszófájlok lekérésekor: Részletek a logban");
@@ -138,7 +138,7 @@ export default {
     },
     async fetchEncryptions() {
       try {
-        const response = await axios.get("http://localhost:8001/getencryptions");
+        const response = await axios.get("/getencryptions");
         this.encryptionOptions = response.data.encryptions;
       } catch (error) {
         dialogs.showError(
@@ -150,7 +150,7 @@ export default {
     async fetchStatus(boot = false) {
       if (!this.timerActive && boot !== true) return;
       try {
-        const response = await axios.get("http://localhost:8001/encryptstatus");
+        const response = await axios.get("/encryptstatus");
         const progress = response.data.progress;
         const fileName = response.data.fileName;
 
@@ -200,10 +200,7 @@ export default {
           encryption: this.selectedEncryption,
           description: this.description,
         };
-        const response = await axios.post(
-          "http://localhost:8001/startencrypt",
-          payload
-        );
+        const response = await axios.post("/startencrypt", payload);
 
         if (response.status === 200) {
           this.startTimer();
