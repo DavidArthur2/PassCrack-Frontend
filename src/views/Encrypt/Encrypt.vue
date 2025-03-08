@@ -132,8 +132,11 @@ export default {
         const response = await axios.get("/passwords");
         this.passwordLists = response.data.passwordlists;
       } catch (error) {
-        dialogs.showError("Hiba a jelszófájlok lekérésekor: Részletek a logban");
-        console.error("Hiba a jelszófájlok lekérésekor:", error);
+        if(error.response)
+          dialogs.showError("Hiba a jelszófájlok lekérésekor:\n" + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
+        console.error("Error at fetching the passwordlists:", error);
       }
     },
     async fetchEncryptions() {
@@ -141,10 +144,11 @@ export default {
         const response = await axios.get("/getencryptions");
         this.encryptionOptions = response.data.encryptions;
       } catch (error) {
-        dialogs.showError(
-          "Hiba a titkosítási módszerek lekérésekor: Részletek a logban"
-        );
-        console.error("Hiba a titkosítási módszerek lekérésekor:", error);
+        if(error.response)
+          dialogs.showError("Hiba a titkosítási módszerek lekérésekor: " + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
+        console.error("Error at fetching methods:", error);
       }
     },
     async fetchStatus(boot = false) {
@@ -171,10 +175,11 @@ export default {
             dialogs.showError("Titkosítás sikertelen!");
         }
       } catch (error) {
-        dialogs.showError(
-          "Hiba a titkosítás állapotának lekérésekor: Részletek a logban"
-        );
-        console.error("Hiba a titkosítás állapotának lekérésekor:", error);
+        if(error.response)
+          dialogs.showError("Hiba a titkosítás állapotának lekérésekor:\n" + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
+        console.error("Error at fetching status:", error);
       }
     },
     selectFile(file) {
@@ -202,21 +207,17 @@ export default {
         };
         const response = await axios.post("/startencrypt", payload);
 
-        if (response.status === 200) {
-          this.startTimer();
-          this.fetchStatus();
-          this.isEncrypting = true;
-        } 
+        this.startTimer();
+        this.fetchStatus();
+        this.isEncrypting = true;
       } catch (error) {
-        if (error.response.status === 409) {
-          dialogs.showError(error.response.data.error);
+        if (error.response) {
+          dialogs.showError("Nem sikerült a visszafejtés indítása:\n" + error.response.data.error);
         }
         else {
-          dialogs.showError(
-            "Hiba a titkosítás indításakor: Részletek a logban"
-          );
-          console.error("Hiba a titkosítás indításakor:", error);
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
         }
+        console.error("Error at starting the encryption: ", error);
       }
     },
   },

@@ -101,20 +101,16 @@
   
         try {
           const response = await axios.post("/run_regex", payload);
-          if (response.status === 200) {
-            const { count, samples } = response.data.result;
-            this.results.count = count;
-            this.results.samples = samples;
-            dialogs.showSuccess("A reguláris kifejezés sikeresen lefutott!");
-          }
+          const { count, samples } = response.data.result;
+          this.results.count = count;
+          this.results.samples = samples;
+          dialogs.showSuccess("A reguláris kifejezés sikeresen lefutott!");
         } catch (error) {
           if (error.response) {
-            if (error.response.status === 409) {
               dialogs.showError("Nem sikerült elindítani a reguláris kifejezést.\n" + error.response.data.error);
-            } else {
-              dialogs.showError("Nem sikerült elindítani a reguláris kifejezést. Részletek a naplóban!");
-            }
           }
+          else
+            dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
           console.error(error);
         }
       },

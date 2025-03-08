@@ -93,14 +93,12 @@
               measurementType: this.selectedMeasurementType,
             },
           });
-          if (response.status === 200) {
-            this.availableRecords = response.data.records;
-          } else {
-            dialogs.showError('Failed to fetch records:' + response.statusText)
-            console.error('Failed to fetch records:', response.statusText);
-          }
+          this.availableRecords = response.data.records;
         } catch (error) {
-          if(error.response)dialogs.showError('Failed to fetch records:' + error.response.data.error)
+          if(error.response)
+            dialogs.showError('Sikertelen adatlekérés:' + error.response.data.error)
+          else
+            dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
           console.error('Error fetching records:', error);
         }
       },
@@ -131,19 +129,14 @@
         };
 
         try {
-          const response = await axios.post(
-            '/chartdata',
-            payload
-          );
-          if (response.status === 200) {
-            const data = response.data;
-            this.updateChart(data);
-          } else {
-            console.error('Failed to fetch chart data:', response.statusText);
-            dialogs.showError('Failed to fetch chart data:' + response.statusText)
-          }
+          const response = await axios.post('/chartdata',payload);
+          const data = response.data;
+          this.updateChart(data);
         } catch (error) {
-          if(error.response)dialogs.showError('Failed to fetch chart data:' + error.response.data.error)
+          if(error.response)
+            dialogs.showError('Sikertelen adatlekérés:' + error.response.data.error)
+          else
+            dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
           console.error('Error fetching chart data:', error);
         }
       },

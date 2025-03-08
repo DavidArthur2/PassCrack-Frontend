@@ -193,7 +193,10 @@ export default {
         const response = await axios.get("/passwords");
         this.passwordLists = response.data.passwordlists;
       } catch (error) {
-        dialogs.showError("Nem sikerült a jelszólisták betöltése.");
+        if(error.response)
+          dialogs.showError("Nem sikerült a jelszólisták betöltése:\n" + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
         console.error(error);
       }
     },
@@ -202,7 +205,10 @@ export default {
         const response = await axios.get("/patterns");
         this.patternOptions = response.data;
       } catch (error) {
-        dialogs.showError("Nem sikerült a minták betöltése.");
+        if(error.response)
+          dialogs.showError("Nem sikerült a minták betöltése:\n" + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
         console.error(error);
       }
     },
@@ -243,17 +249,14 @@ export default {
       };
       try {
         const response = await axios.put("/startcrack", payload);
-        if (response.status === 200) {
-          dialogs.showSuccess("Sikeres visszafejtés indítás!");
-          this.startStatusPolling();
-        }
+        dialogs.showSuccess("Sikeres visszafejtés indítás!");
+        this.startStatusPolling();
       } catch (error) {
         if(error.response){
-          if(error.response.status === 409)
-            dialogs.showError("Nem sikerült elindítani a visszafejtést.\n" + error.response.data.error);
-          else
-            dialogs.showError("Nem sikerült elindítani a visszafejtést. Reszletek a logban!");
+          dialogs.showError("Nem sikerült elindítani a visszafejtést.\n" + error.response.data.error);
         }
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
         console.error(error);
       }
     },
@@ -265,10 +268,10 @@ export default {
           this.stopStatusPolling();
         }
       } catch (error) {
-        if(error.response){
-          if (error.response.status === 409)
-            dialogs.showError("Egy hiba lepett fel: " + error.response.data.error);
-        }
+        if(error.response)
+            dialogs.showError("Egy hiba lépett fel:\n" + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
         console.error(error);
       }
     },
@@ -284,16 +287,13 @@ export default {
     async cancelCracking() {
       try {
         const response = await axios.post("/cancelcrack");
-        
-        if (response.status === 200) {
-          dialogs.showSuccess("Visszafejtes sikeresen lezarva!")
-        } else {
-          dialogs.showError("Visszafejtes lezarasa sikertelen!");
-        }
+        dialogs.showSuccess("Visszafejtes sikeresen lezárva!");
       } catch (error) {
         console.error("Error canceling the cracking process:", error);
-        if(error.response.status == 409)
+        if(error.response)
           dialogs.showError("Visszafejtes lezarasa sikertelen!\n" + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
       }
     }
   },

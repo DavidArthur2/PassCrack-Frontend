@@ -136,7 +136,10 @@ export default {
           raw: list.raw,
         }));
       } catch (error) {
-        dialogs.showError("Nem sikerült lekérni a jelszólistákat:");
+        if(error.response)
+          dialogs.showError("Nem sikerült lekérni a jelszólistákat:\n" + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
         console.error("Nem sikerült lekérni a jelszólistákat:", error);
       }
     },
@@ -155,6 +158,7 @@ export default {
       } catch (error) {
         this.errorMessage =
           error.response?.data?.error || "Nem sikerült létrehozni az azonosítót.";
+        console.error(error);
       }
     },
     async handleFileUpload(event, name, type) {
@@ -188,7 +192,11 @@ export default {
           dialogs.showSuccess("Titkosított fájl sikeresen feltöltve.");
           await this.fetchPasswordLists();
         } catch (error) {
-          dialogs.showError("Nem sikerült feltölteni a fájlt. " + (error.response?.data?.error || ""));
+          if(error.response)
+            dialogs.showError("Nem sikerült feltölteni a fájlt. " + (error.response.data.error || ""));
+          else
+            dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
+          console.error(error);
         }
         finally{
           event.target.value = '';
@@ -212,7 +220,11 @@ export default {
           dialogs.showSuccess("Nyers fájl sikeresen feltöltve.");
           await this.fetchPasswordLists();
         } catch (error) {
-          dialogs.showError("Nem sikerült feltölteni a fájlt. " + (error.response?.data?.error || ""));
+          if(error.response)
+            dialogs.showError("Nem sikerült feltölteni a fájlt. " + (error.response.data.error || ""));
+          else
+            dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
+          console.error(error);
         }
         finally{
           event.target.value = '';
@@ -244,11 +256,13 @@ export default {
         link.download = fileName;
         link.click();
 
-        // Clean up the URL object
         URL.revokeObjectURL(link.href);
       } catch (error) {
+        if(error.response)
+          dialogs.showError("Sikertelen fájl letöltés:\n " + error.response.data.error);
+        else
+          dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
         console.error("Error downloading the file:", error);
-        dialogs.showError("Failed to download the file.");
       }
     },
   },
