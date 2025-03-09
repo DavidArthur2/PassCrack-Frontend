@@ -205,7 +205,7 @@ export default {
           encryption: this.selectedEncryption,
           description: this.description,
         };
-        const response = await axios.post("/startencrypt", payload);
+        await axios.post("/startencrypt", payload);
 
         this.startTimer();
         this.fetchStatus();

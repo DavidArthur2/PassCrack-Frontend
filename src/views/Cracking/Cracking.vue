@@ -248,7 +248,7 @@ export default {
         description: this.description,
       };
       try {
-        const response = await axios.put("/startcrack", payload);
+        await axios.put("/startcrack", payload);
         dialogs.showSuccess("Sikeres visszafejtés indítás!");
         this.startStatusPolling();
       } catch (error) {
@@ -286,7 +286,7 @@ export default {
     },
     async cancelCracking() {
       try {
-        const response = await axios.post("/cancelcrack");
+        await axios.post("/cancelcrack");
         dialogs.showSuccess("Visszafejtes sikeresen lezárva!");
       } catch (error) {
         console.error("Error canceling the cracking process:", error);
