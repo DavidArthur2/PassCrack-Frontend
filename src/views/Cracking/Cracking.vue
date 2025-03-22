@@ -92,6 +92,7 @@
       <h2>Visszafejtés állapota</h2>
       <p v-if="crackingStatus.Status">Státusz: {{ crackingStatus.Status }}</p>
       <p v-if="crackingStatus['Speed1']">Sebesség1: {{ crackingStatus['Speed1'] }}</p>
+      <p v-if="crackingStatus['Error']">Hiba: {{ crackingStatus['Error'] }}</p>
       <p v-if="crackingStatus['Speed2']">Sebesség2: {{ crackingStatus['Speed2'] }}</p>
       <p v-if="crackingStatus['Progress']">Progress: {{ crackingStatus['Progress'] }}</p>
       <p v-if="crackingStatus['Hardware.GPU']">GPU: {{ crackingStatus['Hardware.GPU'] }}</p>
@@ -264,7 +265,7 @@ export default {
       try {
         const response = await axios.get("/crackstatus");
         this.crackingStatus = response.data;
-        if (this.crackingStatus.Status !== "In Progress") {
+        if (this.crackingStatus.Status !== "In Progress" && this.crackingStatus.Status !== "Starting") {
           this.stopStatusPolling();
         }
       } catch (error) {
