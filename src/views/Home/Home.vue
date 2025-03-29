@@ -1,30 +1,4 @@
-<template>
-  <div>
-    <section id="introduction">
-      <div class="content">
-        <h2>Jelszavak Erőssége és Visszafejtése</h2>
-        <p>A jelszavak erőssége és visszafejtése kulcsfontosságú a digitális biztonságban. Ez a projekt célja, hogy megvizsgálja a különböző kriptográfiai algoritmusokat és visszafejtési módszereket, és elemezze ezek hatékonyságát.</p>
-        <p>Egy jól megválasztott jelszó nemcsak a személyes adataink, hanem a pénzügyi információink és az online identitásunk védelmét is szolgálja. A jelszavak biztonságos használata alapvető fontosságú a digitális térben való biztonságos létezéshez.</p>
-      </div>
-      <div class="image">
-        <img src="../../../public/images/password_security.png" alt="Password strength chart" height="20%"/>
-      </div>
-    </section>
-
-    <section id="features">
-      <h2>Főbb témák</h2>
-      <ul>
-        <li>Kriptográfiai algoritmusok vizsgálata</li>
-        <li>Visszafejtési módszerek tanulmányozása</li>
-        <li>Felhasználóbarát védekezési technikák bemutatása</li>
-      </ul>
-    </section>
-
-    <footer>
-      <p>© 2024 Jelszavak Biztonsága. Minden jog fenntartva.</p>
-    </footer>
-  </div>
-</template>
+<template src="./Home.html"/>
 
 <script>
 export default {
