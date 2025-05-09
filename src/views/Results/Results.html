@@ -1,0 +1,49 @@
+<div class="results-container">
+    <div class="header">
+      <h1>Jelszó Feltörési Eredmények</h1>
+    </div>
+  
+    <div class="results-section">
+      <h2>
+        Keresés
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Keresés leírás, azonosító vagy titkosítás szerint..."
+          class="search-bar"
+        />
+      </h2>
+      <ul v-if="filteredResults && filteredResults.length" class="results-list">
+        <li
+          v-for="result in filteredResults"
+          :key="result.recordId"
+          class="list-item"
+        >
+          <div class="result-header">
+            <span class="identifier">{{ result.description }}</span>
+            <span class="record-id">Azonosító: {{ result.recordId }}</span>
+          </div>
+  
+          <div class="result-details">
+            <span class="encryption-type">
+              Titkosítási típus: {{ result.encryptionType }}
+            </span>
+            <span class="cracked-count">
+              Feltört jelszavak: {{ result.crackedCount }}
+            </span>
+          </div>
+  
+          <div class="actions">
+            <button
+              @click="downloadResult(result.recordId)"
+              class="download-btn"
+            >
+              Eredmény Letöltése
+            </button>
+          </div>
+        </li>
+      </ul>
+  
+      <p v-else>Nincsenek elérhető feltörési eredmények.</p>
+    </div>
+</div>

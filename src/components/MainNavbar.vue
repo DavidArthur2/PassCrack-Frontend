@@ -47,7 +47,8 @@ import {
           {name: "Kimutatások", link: "/reports"},
           {name: "Jelszó titkosító", link: "/encrypt"},
           {name: "Regex futtató", link: "/regex"},
-          {name: "Jelszó tesztelő", link: "/tester"}
+          {name: "Jelszó tesztelő", link: "/tester"},
+          {name: "Eredmények", link: "/results"}
         ]
       }
     },

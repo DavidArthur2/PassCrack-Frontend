@@ -1,59 +1,4 @@
-<template>
-  <div class="encrypt-container">
-    <section class="password-list-section">
-      <div class="header-row">
-        <h2>Jelszófájl kiválasztása</h2>
-        <input
-          type="text"
-          v-model="searchQuery"
-          placeholder="Keresés..."
-          class="search-bar"
-        />
-      </div>
-      <ul v-if="filteredPasswordLists.length">
-        <li
-          v-for="file in filteredPasswordLists"
-          :key="file.name"
-          @click="selectFile(file)"
-          :class="{ selected: selectedFile && selectedFile.name === file.name }"
-        >
-          {{ file.name }}
-        </li>
-      </ul>
-      <p v-else>Nincs elérhető jelszófájl titkosításhoz.</p>
-    </section>
-
-    <section v-if="selectedFile" class="encryption-section">
-      <h2>Titkosítási módszer kiválasztása</h2>
-      <select v-model="selectedEncryption" @change="checkExistingEncryption">
-        <option v-for="enc in encryptionOptions" :key="enc" :value="enc">
-          {{ enc }}
-        </option>
-      </select>
-    </section>
-
-    <section class="action-section">
-      <button :disabled="!canStart || isEncrypting" @click="showDescriptionDialog">
-        Titkosítás Indítása
-      </button>
-    </section>
-
-    <section v-if="encryptionStatus" :class="['status-section', statusClass]">
-      <h2>Titkosítás Állapota</h2>
-      <p>Státusz: {{ encryptionStatus.status }}</p>
-      <p v-if="currentFileName">Fájl: {{ currentFileName }}</p>
-      <p v-if="encryptionStatus.percentage">Állapot: {{ encryptionStatus.percentage.toFixed(2) }}% / 100%</p>
-      <p v-if="encryptionStatus.progress">Folyamatban lévő sorok: {{ encryptionStatus.progress }}</p>
-      <p v-if="encryptionStatus.total">Összes sor: {{ encryptionStatus.total }}</p>
-      <p v-if="encryptionStatus.averageSpeed">Átlagos sebesség: {{ encryptionStatus.averageSpeed }}</p>
-      <p v-if="encryptionStatus.maxSpeed">Maximális sebesség: {{ encryptionStatus.maxSpeed }}</p>
-      <p v-if="encryptionStatus.estimatedEndTime">Becsült befejezési idő: {{ encryptionStatus.estimatedEndTime }}</p>
-      <p v-if="encryptionStatus.remainingTime">Hátralevő idő: {{ encryptionStatus.remainingTime }}</p>
-    </section>
-
-  </div>
-</template>
-
+<template src="./Encrypt.html"/>
 
 <script>
 import axios from "axios";
@@ -205,7 +150,7 @@ export default {
           encryption: this.selectedEncryption,
           description: this.description,
         };
-        const response = await axios.post("/startencrypt", payload);
+        await axios.post("/startencrypt", payload);
 
         this.startTimer();
         this.fetchStatus();
