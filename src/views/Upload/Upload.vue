@@ -85,7 +85,11 @@
                 <option value="SHA1">SHA1</option>
                 <option value="SHA256_PS">SHA256_PS</option>
                 <option value="SHA256_SP">SHA256_SP</option>
+                <option value="SHA256">SHA256_SP</option>
                 <option value="WPA2">WPA2</option>
+                <option value="NTLM">NTLM</option>
+                <option value="BCrypt">BCrypt</option>
+                <option value="PBKDF2">PBKDF2</option>
               </select>
             </label>
             <label>
