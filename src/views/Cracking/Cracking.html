@@ -90,9 +90,9 @@
     <section v-if="crackingStatus" :class="['status-section', statusClass]">
       <h2>Visszafejtés állapota</h2>
       <p v-if="crackingStatus.Status">Státusz: {{ crackingStatus.Status }}</p>
-      <p v-if="crackingStatus['Speed1']">Sebesség1: {{ crackingStatus['Speed1'] }}</p>
+      <p v-if="crackingStatus['Speed1']">Sebesség GPU: {{ crackingStatus['Speed1'] }}</p>
       <p v-if="crackingStatus['Error']">Hiba: {{ crackingStatus['Error'] }}</p>
-      <p v-if="crackingStatus['Speed2']">Sebesség2: {{ crackingStatus['Speed2'] }}</p>
+      <p v-if="crackingStatus['Speed3']">Sebesség CPU: {{ crackingStatus['Speed3'] }}</p>
       <p v-if="crackingStatus['Progress']">Progress: {{ crackingStatus['Progress'] }}</p>
       <p v-if="crackingStatus['Hardware.GPU']">GPU: {{ crackingStatus['Hardware.GPU'] }}</p>
       <p v-if="crackingStatus['Hardware.CPU']">CPU: {{ crackingStatus['Hardware.CPU'] }}</p>
