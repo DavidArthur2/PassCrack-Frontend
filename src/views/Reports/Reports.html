@@ -12,21 +12,21 @@
 
       <div class="form-group" v-if="selectedMeasurementType">
         <label for="x-axis-options">X tengely opciók:</label>
-        <select id="x-axis-options" class="form-control" v-model="selectedXAxisOptions" multiple>
+        <select id="x-axis-options" class="form-control" v-model="selectedXAxisOptions" multiple size="6">
           <option v-for="option in xAxisOptions" :key="option" :value="option">{{ option }}</option>
         </select>
       </div>
 
       <div class="form-group" v-if="selectedMeasurementType">
         <label for="y-axis-options">Y tengely opciók:</label>
-        <select id="y-axis-options" class="form-control" v-model="selectedYAxisOptions" multiple>
+        <select id="y-axis-options" class="form-control" v-model="selectedYAxisOptions" multiple size="5">
           <option v-for="option in yAxisOptions" :key="option" :value="option">{{ option }}</option>
         </select>
       </div>
 
       <div class="form-group" v-if="selectedMeasurementType">
         <label for="record-selection">Kiválasztott rekordok:</label>
-        <select id="record-selection" class="form-control" v-model="selectedRecords" multiple>
+        <select id="record-selection" class="form-control" v-model="selectedRecords" multiple size="10">
           <option v-for="record in availableRecords" :key="record.id" :value="record.id">{{ record.description }}</option>
         </select>
       </div>
