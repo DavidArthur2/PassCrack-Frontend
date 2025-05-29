@@ -12,7 +12,7 @@
 
       <div class="form-group" v-if="selectedMeasurementType">
         <label for="x-axis-options">X tengely opciók:</label>
-        <select id="x-axis-options" class="form-control" v-model="selectedXAxisOptions" multiple size="5">
+        <select id="x-axis-options" class="form-control" v-model="selectedXAxisOptions" multiple size="6">
           <option v-for="option in xAxisOptions" :key="option" :value="option">{{ option }}</option>
         </select>
       </div>
