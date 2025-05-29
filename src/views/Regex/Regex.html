@@ -28,6 +28,13 @@
         <button type="submit" class="btn-run">Reguláris Kifejezés Futattása</button>
     </form>
 
+    <div v-if="in_progress" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Futtatás folyamatban...</p>
+        </div>
+    </div>
+
     <div v-if="results.count !== null" class="results-container">
         <div class="header-row">
             <h2>Eredmények</h2>

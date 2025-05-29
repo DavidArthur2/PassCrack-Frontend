@@ -17,6 +17,7 @@
         commaSeparator: false,
         formattedResults: "",
         description: "",
+        in_progress: false,
       };
     },
     watch: {
@@ -53,7 +54,10 @@
         };
   
         try {
-          const response = await axios.post("/run_regex", payload);
+          this.in_progress = true;
+          const response = await axios.post("/run_regex", payload, {
+            timeout: 1200000 // 20 min
+          });
           const { count, samples } = response.data.result;
           this.results.count = count;
           this.results.samples = samples;
@@ -65,6 +69,8 @@
           else
             dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
           console.error(error);
+        } finally {
+          this.in_progress = false;
         }
       },
       formatResults() {
