@@ -1,5 +1,14 @@
 <div class="regex-container">
     <h1 class="title">Reguláris Kifejezés Tesztelő</h1>
+
+    <div v-if="isCurrentlyRunning && currentRunDescription" class="current-run-status">
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span class="status-text">Futó reguláris kifejezés:</span>
+        </div>
+        <p class="current-description">{{ currentRunDescription }}</p>
+    </div>
+
     <form @submit.prevent="showDescriptionDialog" class="form">
         <div class="form-group">
             <label for="regex">Reguláris Kifejezés Minta</label>
@@ -28,10 +37,17 @@
         <button type="submit" class="btn-run">Reguláris Kifejezés Futattása</button>
     </form>
 
-    <div v-if="in_progress" class="loading-overlay">
+    <div v-if="isCurrentlyRunning && currentRunDescription" class="loading-overlay">
         <div class="loading-spinner">
             <div class="spinner"></div>
             <p class="loading-text">Futtatás folyamatban...</p>
+        </div>
+        <div class="current-run-status">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span class="status-text">Futó reguláris kifejezés:</span>
+            </div>
+            <p class="current-description">{{ currentRunDescription }}</p>
         </div>
     </div>
 

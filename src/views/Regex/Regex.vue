@@ -17,7 +17,8 @@
         commaSeparator: false,
         formattedResults: "",
         description: "",
-        in_progress: false,
+        currentRunDescription: null,
+        isCurrentlyRunning: false,
       };
     },
     watch: {
@@ -47,16 +48,17 @@
         });
       },
       async runRegex() {
-            const payload = {
-            regex: this.regex,
-            sample_number: this.sampleNumber,
-            description: this.description
+        const payload = {
+          regex: this.regex,
+          sample_number: this.sampleNumber,
+          description: this.description
         };
   
         try {
-          this.in_progress = true;
+          this.currentRunDescription = this.description;
+          this.isCurrentlyRunning = true;
           const response = await axios.post("/run_regex", payload, {
-            timeout: 1200000 // 20 min
+            timeout: 2400000 // 40 min
           });
           const { count, samples } = response.data.result;
           this.results.count = count;
@@ -70,7 +72,7 @@
             dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
           console.error(error);
         } finally {
-          this.in_progress = false;
+          this.isCurrentlyRunning = false;
         }
       },
       formatResults() {
@@ -85,6 +87,38 @@
             this.formattedResults = "";
         }
       },
+      async checkRegexStatus() {
+          try {
+              const response = await axios.get("/get_regex_status");
+              const { result, description } = response.data;
+              
+              this.isCurrentlyRunning = result === 'running';
+              this.currentRunDescription = description;
+          } catch (error) {
+              console.error('Error checking regex status:', error);
+          }
+      },
+      startStatusPolling() {
+          this.statusInterval = setInterval(async () => {
+              if (this.isCurrentlyRunning) {
+                  await this.checkRegexStatus();
+              }
+          }, 5000);
+      },
+
+      stopStatusPolling() {
+          if (this.statusInterval) {
+              clearInterval(this.statusInterval);
+              this.statusInterval = null;
+          }
+      },
+    },
+    async mounted() {
+        await this.checkRegexStatus();
+        this.startStatusPolling();
+    },
+        beforeUnmount() {
+        this.stopStatusPolling();
     },
   };
 </script>
