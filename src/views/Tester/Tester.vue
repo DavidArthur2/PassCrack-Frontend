@@ -41,11 +41,11 @@ export default {
         this.weaknesses = response.data.weaknesses;
         if(this.weaknesses.length < 2){
           this.status = 'done';
-          this.strengthMessage = "A jelszo biztonsagos!"; 
+          this.strengthMessage = "A jelszo biztonságos!"; 
         }
         else {
           this.status = 'failed';
-          this.strengthMessage = "A jelszo nem biztonsagos!";
+          this.strengthMessage = "A jelszo nem biztonságos! Gyengeségek: " + this.weaknesses;
         }
       }
       catch (error) {
