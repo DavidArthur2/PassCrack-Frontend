@@ -91,10 +91,10 @@
       async checkRegexStatus() {
           try {
               const response = await axios.get("/get_regex_status");
-              const { result } = response.data;
+              const { result, description } = response.data;
               
               this.isCurrentlyRunning = result === 'running';
-              this.currentRunDescription = result.description;
+              this.currentRunDescription = description;
           } catch (error) {
               console.error('Error checking regex status:', error);
           }
