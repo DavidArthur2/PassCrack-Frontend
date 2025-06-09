@@ -117,9 +117,6 @@
         await this.checkRegexStatus();
         this.startStatusPolling();
     },
-        beforeUnmount() {
-        this.stopStatusPolling();
-    },
   };
 </script>
   
