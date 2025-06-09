@@ -17,6 +17,7 @@ export default {
       selectedPattern: null,
       selectedEncryption: null,
       maskInput: "",
+      paramsInput: "",
       crackingStatus: null,
       timer: null,
       description: "",
@@ -126,6 +127,7 @@ export default {
       this.selectedWordlist = null;
       this.selectedPattern = null;
       this.maskInput = "";
+      this.paramsInput = "";
       if (this.selectedCrackType === "dictionary") {
         this.fetchPatterns();
       }
@@ -139,6 +141,7 @@ export default {
           this.selectedCrackType === "dictionary"
             ? this.selectedWordlist?.name
             :  this.maskInput,
+        optional_param: this.paramsInput,
         rule: this.selectedPattern === null ? "" : this.selectedPattern,
         description: this.description,
       };
