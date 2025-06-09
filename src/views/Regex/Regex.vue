@@ -72,6 +72,7 @@
             dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
           console.error(error);
         } finally {
+          console.log("Regex run completed");
           this.isCurrentlyRunning = false;
         }
       },
@@ -92,6 +93,7 @@
               const response = await axios.get("/get_regex_status");
               const { result } = response.data;
               
+              console.log("Current regex status:", result);
               this.isCurrentlyRunning = result.result === 'running';
               this.currentRunDescription = result.description;
           } catch (error) {
