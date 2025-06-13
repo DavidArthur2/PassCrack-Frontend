@@ -66,8 +66,10 @@ export default {
 
             URL.revokeObjectURL(link.href);
         } catch (error) {
+            const err = await error.response.data.text();
+            const err_msg = JSON.parse(err);
             if(error.response)
-                dialogs.showError("Sikertelen eredmény letöltés:\n " + error.response.data.error);
+                dialogs.showError("Sikertelen eredmény letöltés:\n " + err_msg.error);
             else
                 dialogs.showError("Váratlan hiba történt\nEllenőrizd a logokat!");
             console.error("Error downloading the result:", error);
