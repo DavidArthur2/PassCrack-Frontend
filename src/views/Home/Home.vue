@@ -1,4 +1,4 @@
-<template src="./Home.html"/>
+<template src="./Home.html"></template>
 
 <script>
 export default {
@@ -6,6 +6,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@import './Home.css';
-</style>
+<style scoped src="./Home.css"></style>

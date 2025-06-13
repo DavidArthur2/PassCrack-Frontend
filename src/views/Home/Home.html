@@ -1,25 +1,71 @@
-<div>
+<div class="home-page-container">
+  <header class="hero-section">
+    <div class="container">
+      <h1>A Jelszavak Védelmében</h1>
+      <p class="subtitle">
+        Tudtad, hogy egy rosszul választott titkosítási eljárással a jelszavad másodpercek alatt feltörhető, míg egy jóval akár 80 évbe is beletelhet?
+      </p>
+    </div>
+  </header>
+
+  <main>
     <section id="introduction">
-      <div class="content">
-        <h2>Jelszavak Erőssége és Visszafejtése</h2>
-        <p>A jelszavak erőssége és visszafejtése kulcsfontosságú a digitális biztonságban. Ez a projekt célja, hogy megvizsgálja a különböző kriptográfiai algoritmusokat és visszafejtési módszereket, és elemezze ezek hatékonyságát.</p>
-        <p>Egy jól megválasztott jelszó nemcsak a személyes adataink, hanem a pénzügyi információink és az online identitásunk védelmét is szolgálja. A jelszavak biztonságos használata alapvető fontosságú a digitális térben való biztonságos létezéshez.</p>
-      </div>
-      <div class="image">
-        <img src="../../../public/images/password_security.png" alt="Password strength chart" height="20%"/>
+      <div class="container intro-container">
+        <div class="intro-text">
+          <h2>A kutatás célja: Támadók és védők harca</h2>
+          <p>A digitális biztonság egy állandó versenyfutás. Ez a szakdolgozat a jelszavak világát vizsgálja mindkét oldalról: hogyan dolgoznak a támadók, és hogyan védekezhetünk hatékonyan? Adatvezérelt mérésekkel elemeztük a leggyakoribb jelszóvisszafejtési technikákat, a felhasználói szokásokat és a modern titkosítási eljárások erejét, hogy kézzelfogható válaszokat adjunk a biztonságos jelszóhasználat kérdéseire.</p>
+        </div>
+        <div class="intro-image">
+          <img src="/images/password_security.png" alt="Jelszó erősségét mutató diagram" class="responsive-image">
+        </div>
       </div>
     </section>
 
-    <section id="features">
-      <h2>Főbb témák</h2>
-      <ul>
-        <li>Kriptográfiai algoritmusok vizsgálata</li>
-        <li>Visszafejtési módszerek tanulmányozása</li>
-        <li>Felhasználóbarát védekezési technikák bemutatása</li>
-      </ul>
+    <section id="findings">
+      <div class="container">
+        <h2>Legfontosabb eredmények és mérések</h2>
+        <div class="findings-grid">
+          
+          <div class="finding-card">
+            <h3>1. Az algoritmus a védelmi vonal lelke</h3>
+            <p>A régi és modern titkosítási algoritmusok összehasonlítása drámai különbséget mutatott. Míg egy <strong>MD5</strong> hash visszafejtési sebessége elérheti a <span class="data-highlight">15.6 MH/s</span>-t, addig egy modern <strong>SCrypt</strong> algoritmus esetében a becsült törési idő <span class="data-highlight">több mint 80 év</span>.</p>
+          </div>
+
+          <div class="finding-card">
+            <h3>2. A szótárak ereje: A "rockyou2021" mindent visz</h3>
+            <p>A 92 GB-os <strong>rockyou2021.txt</strong> lista döbbenetes, <span class="data-highlight">58.7%-os sikerességgel</span> tudta visszafejteni a tesztadatbázis jelszavait, bizonyítva, hogy a hatalmas, nyilvános listák a támadók leghatékonyabb fegyverei.</p>
+          </div>
+
+          <div class="finding-card">
+            <h3>3. A felhasználói szokások feltérképezése</h3>
+            <p>A jelszavak <span class="data-highlight">26.29%-a</span> pontosan 8 karakter hosszú. A legnépszerűbb séma (31.32%) a "betű+szám" kombináció (pl. `Pisti1998`), ami könnyen célozhatóvá teszi a felhasználókat.</p>
+          </div>
+          
+          <div class="finding-card">
+            <h3>4. A "Salt": egyszerű trükk, maximális védelem</h3>
+            <p>Méréseink igazolták, hogy egy véletlenszerű "salt" hozzáadása a jelszóhoz <span class="data-highlight">meggátolja a szivárványtáblák használatát</span>, ami az egyik leggyakoribb támadási forma, anélkül, hogy a teljesítményt érdemben befolyásolná.</p>
+          </div>
+
+        </div>
+      </div>
     </section>
 
-    <footer>
-      <p>© 2024 Jelszavak Biztonsága. Minden jog fenntartva.</p>
-    </footer>
-  </div>
+    <section id="conclusion">
+        <div class="container">
+            <h2>Hogyan védekezzünk? A kutatás legfőbb tanulságai</h2>
+            <ul class="conclusion-list">
+              <li><strong>Válassz modern algoritmust:</strong> Felejtsd el az MD5-öt és SHA1-et! Használj <strong>SCrypt, PBKDF2 vagy Argon2</strong> algoritmusokat.</li>
+              <li><strong>Használj "salt"-ot (és "pepper"-t):</strong> Minden jelszóhoz egyedi sót kell generálni a maximális biztonságért.</li>
+              <li><strong>Kerüld a mintákat:</strong> A hosszú, véletlenszerű jelszavak vagy jelszófrázisok a leghatékonyabbak.</li>
+              <li><strong>A hosszúság számít:</strong> A jelszó hossza exponenciálisan növeli a feltöréshez szükséges időt. Törekedj a 12+ karakterre!</li>
+            </ul>
+        </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Ez a projekt egy szakdolgozat keretében készült. © 2024</p>
+    </div>
+  </footer>
+</div>
