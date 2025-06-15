@@ -45,7 +45,7 @@ export default {
         }
         else {
           this.status = 'failed';
-          this.strengthMessage = "A jelszo nem biztonságos! Gyengeségek: " + this.weaknesses;
+          this.strengthMessage = "A jelszo nem biztonságos!";
         }
       }
       catch (error) {
