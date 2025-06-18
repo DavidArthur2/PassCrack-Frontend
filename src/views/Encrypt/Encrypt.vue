@@ -39,6 +39,8 @@ export default {
           return "status-done";
         case "In Progress":
           return "status-in-progress";
+        case "Starting":
+          return "status-starting";
         case "Failed":
           return "status-failed";
         case "Not started":
@@ -105,7 +107,7 @@ export default {
 
         this.encryptionStatus = progress;
         this.currentFileName = fileName;
-        if (progress.status === "In Progress") {
+        if (progress.status === "In Progress" || progress.status === "Starting") {
           if(this.isEncrypting === false)
             this.startTimer();
           this.isEncrypting = true;
