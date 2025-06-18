@@ -106,6 +106,8 @@ export default {
         this.encryptionStatus = progress;
         this.currentFileName = fileName;
         if (progress.status === "In Progress") {
+          if(this.isEncrypting === false)
+            this.startTimer();
           this.isEncrypting = true;
         } else if (
           progress.status === "Done" ||
