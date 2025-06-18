@@ -98,6 +98,11 @@
     background-color: orange;
     color: black;
   }
+
+  .status-starting {
+    background-color: rgba(0, 94, 218, 0.795);
+    color: rgb(255, 255, 255);
+  }
   
   .status-failed {
     background-color: red;
