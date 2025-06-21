@@ -40,7 +40,7 @@ export default {
       }
     },
     async createPasswordList() {
-      if (!/^[a-z0-9_]{1,20}$/.test(this.newName)) {
+      if (!/^[a-z0-9_]{1,40}$/.test(this.newName)) {
         this.errorMessage =
           "Az azonosítónak kisbetűket, számokat, vagy alulvonást kell tartalmaznia, és maximum 20 karakter lehet.";
         return;
